@@ -1,8 +1,9 @@
 
 #!/usr/bin/env python3
 import hashlib
-from sys import argv
 import secrets
+from sys import argv
+
 
 try:
     assert len(argv) > 1
