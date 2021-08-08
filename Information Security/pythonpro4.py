@@ -3,7 +3,6 @@ import hashlib
 import secrets
 from sys import argv
 
-
 try:
     assert len(argv) > 1
     salt = secrets.token_bytes(128)
