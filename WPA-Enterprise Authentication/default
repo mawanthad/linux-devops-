@@ -1,0 +1,41 @@
+server default {
+authorize {
+    #
+    #  Some broken equipment sends passwords with embedded zeros.
+    #  i.e. the debug output will show
+    #
+    #   User-Password = "password\000\000"
+    #
+    #  This policy will fix it to just be "password".
+    #
+#   filter_password
+    filter_uuid
+    filter_google_otp
+    #
+    #  The ldap module reads passwords from the LDAP database.
+    ldap
+}
+
+authenticate {
+    #
+    #  PAP authentication, when a back-end database listed
+    #  in the 'authorize' section supplies a password.  The
+    #  password can be clear-text, or encrypted.
+    Auth-Type PAP {
+        pap
+        if (&Google-Password) {
+                        update request {
+                &User-Name := "%{&User-UUID}"
+                               &User-Password := "%{&Google-Password}"
+                       }
+                        pam
+                } else {
+                       update reply {
+                              # State := "%{randstr:aaaaaaaaaaaaaaaa}"
+                              Reply-Message := "Login incorrect: TOTP Fail"
+            }
+                        reject
+                }
+    }
+}
+}
