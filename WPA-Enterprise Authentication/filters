@@ -1,0 +1,15 @@
+filter_uuid {
+        if (&User-Name =~ /^(.*)@example\.com$/) {
+                update request {
+                        &User-UUID := "%{1}"
+                }
+        }
+}
+filter_google_otp {
+        if (&User-Password =~ /^(.*)([0-9]{6})$/) {
+               update request {
+                        &Google-Password := "%{2}"
+                        &User-Password := "%{1}"
+                }
+        }
+}
