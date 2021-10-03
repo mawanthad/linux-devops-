@@ -1,0 +1,46 @@
+# 2nd,3rd, and 4th steps of Task01
+
+- name: Install apache on server1
+  hosts: 
+    - webserver1
+    - webserver2
+  tasks:
+    - name: Install apache
+      apt:
+        name: apache2
+        state: latest
+          
+    - name: start service
+      service:
+        name: apache2
+        state: started
+        enabled: true
+        
+    - name: allow http traffic from firewall
+      ufw:
+        rule: allow
+        port: 80
+        proto: tcp
+      notify: restart ufw
+      
+    - name: remove the default index file
+      file:
+        state: absent
+        path: /var/www/html/index.html
+
+    - name: copy new index file
+      copy:
+        src: ./index1.html
+        dest: /var/www/html/index.html
+      notify: restart apache2
+    
+  handlers:
+    - name: restart ufw
+      service:
+        name: ufw
+        state: restarted
+        
+    - name: restart apache2
+      service:
+        name: apache2
+        state : restarted
