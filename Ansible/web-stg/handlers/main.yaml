@@ -1,0 +1,12 @@
+---
+# handlers file for web-stg
+
+- name: restart ufw
+  service:
+    name: ufw
+    state: restarted
+
+- name: restart apache2
+  service:
+    name: apache2
+    state : restarted
