@@ -1,0 +1,6 @@
+- name: create instances and install apache
+  hosts: 
+    - webserver1
+    - webserver2
+  roles:
+    - web-stg
