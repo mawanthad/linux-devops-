@@ -1,0 +1,7 @@
+---
+# vars file for web-stg
+gcp_project: fourth-tiger-319208
+gcp_auth_kind: serviceaccount
+gcp_cred_file: /home/mawanthadilshan/ansible/my_acc.json
+zone: "asia-southeast1-b"
+region: "asia-southeast1"
